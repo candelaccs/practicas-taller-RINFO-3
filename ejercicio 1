@@ -1,0 +1,128 @@
+programa ejercicio1practica3  
+procesos  
+  proceso juntarFlores (ES flores: numero)  
+  comenzar  
+    mientras HayFlorEnLaEsquina  
+      tomarFlor  
+      flores:= flores+1  
+  fin  
+  proceso juntarPapeles (ES papeles: numero)  
+  comenzar  
+    mientras HayPapelEnLaEsquina  
+      tomarPapel  
+      papeles:= papeles+1  
+  fin   
+  proceso depositarPapeles (E cant: numero) 
+  comenzar 
+    repetir cant 
+      depositarPapel 
+  fin 
+  proceso depositarFlores (E cant: numero) 
+  comenzar  
+    repetir cant  
+      depositarFlor
+  fin 
+  proceso limpiarFlores (ES flores: numero)  
+  variables  
+    pos1, pos2, av, ca: numero 
+  comenzar  
+    pos2:= PosCa  
+    pos1:= PosAv  
+    Random (av, 1,5)  
+    Random (ca, 1,10)  
+    BloquearEsquina (av,ca)
+    Pos (av,ca)  
+    juntarFlores (flores) 
+    Pos (pos1, pos2) 
+    LiberarEsquina (av,ca) 
+  fin  
+  proceso limpiarPapeles (ES papeles: numero)  
+  variables  
+    pos1, pos2, av, ca: numero  
+  comenzar  
+    pos2:= PosCa  
+    pos1:= PosAv  
+    Random (av, 6,10)  
+    Random (ca, 1,9)  
+    BloquearEsquina (av,ca)
+    Pos (av,ca)  
+    juntarPapeles (papeles)  
+    Pos (pos1, pos2)  
+    LiberarEsquina (av,ca)
+  fin  
+  proceso dejarPapeles (E papeles: numero)  
+  variables 
+    av, ca: numero 
+  comenzar 
+    av:= PosAv 
+    ca:= PosCa 
+    BloquearEsquina (10,10) 
+    Pos (10,10) 
+    depositarPapeles (papeles) 
+    Pos (av,ca) 
+    LiberarEsquina (10,10) 
+  fin
+  proceso dejarFlores (E flores: numero)
+  variables 
+    av, ca: numero 
+  comenzar 
+    av:= PosAv 
+    ca:= PosCa 
+    BloquearEsquina (10,10)  
+    Pos (10,10) 
+    depositarFlores (flores) 
+    Pos (av,ca)  
+    LiberarEsquina (10,10) 
+  fin 
+  
+areas 
+  areaFlor: AreaPC (1,1,5,10) 
+  areaPapel: AreaPC (6,1,10,9)  
+  areaFlor1: AreaP (6,10,6,10)  
+  areaFlor2: AreaP (7,10,7,10)  
+  areaPapel1: AreaP (8,10,8,10)  
+  areaPapel2: AreaP (9,10,9,10) 
+  areaDiez: AreaC (10,10,10,10) 
+robots  
+  robot florero  
+  variables
+    flores: numero
+  comenzar  
+    flores:= 0
+    repetir 5
+      limpiarFlores (flores)
+    dejarFlores (flores)
+  fin  
+  robot papelero  
+  variables
+    papeles: numero
+  comenzar  
+    papeles:= 0
+    repetir 3
+      limpiarPapeles (papeles)
+    dejarPapeles (papeles)
+  fin  
+variables   
+  robot1: florero
+  robot2: florero  
+  robot3: papelero
+  robot4: papelero 
+comenzar  
+  AsignarArea (robot1, areaFlor) 
+  AsignarArea (robot1, areaFlor1)  
+  AsignarArea (robot1, areaDiez)
+  AsignarArea (robot2, areaFlor)  
+  AsignarArea (robot2, areaFlor2)  
+  AsignarArea (robot2, areaDiez)
+  AsignarArea (robot3, areaPapel)  
+  AsignarArea (robot3, areaPapel1)  
+  AsignarArea (robot3, areaDiez)
+  AsignarArea (robot4, areaPapel)  
+  AsignarArea (robot4, areaPapel2)  
+  AsignarArea (robot4, areaDiez)
+  Iniciar (robot1, 6,10)  
+  Iniciar (robot2, 7,10)  
+  Iniciar (robot3, 8,10)  
+  Iniciar (robot4, 9,10) 
+   
+fin  
