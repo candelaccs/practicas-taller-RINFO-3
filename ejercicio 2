@@ -1,0 +1,66 @@
+programa ejercicio2practica3
+procesos
+  proceso juntarFlores (ES flores: numero)
+  comenzar
+    mientras HayFlorEnLaEsquina 
+      tomarFlor
+      flores:= flores+1
+  fin
+  proceso juntarPapeles (ES papeles: numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      papeles:= papeles+1
+  fin
+  proceso escalonFlores (ES flores: numero; E tamaño: numero) { pude reutilizar este codigo pero me gira muchas veces} {otra cosa solo me limpia los vertices contrarios en el ssegundo reccorddio pero sino tenia que usar 4 codigos}
+  comenzar
+    repetir tamaño
+      mover
+    juntarFlores (flores)
+    derecha
+    repetir tamaño
+      mover
+    repetir 3
+      derecha
+  fin
+  proceso escaleraFlorUno (ES flores: numero)
+  variables
+    tamaño: numero
+  comenzar
+    tamaño:= 6
+    repetir 4
+      tamaño:= tamaño-1
+      escalonFlores (flores, tamaño)
+    tamaño:= tamaño-1
+    BloquearEsquina (16,16)
+    escalonFlores (flores,tamaño)
+  fin
+  proceso escaleraFlorDos (ES flores: numero)
+  variables
+    tamaño: numero
+  comenzar
+    tamaño:= 1
+    repetir 4
+      tamaño:= tamaño+1
+      escalonFlores (flores, tamaño)
+  fin
+areas
+  area: AreaC (1,1,100,100)
+robots
+  robot flor
+  variables
+    flores: numero
+  comenzar
+    flores:=0
+    escaleraFlorUno (flores)
+    repetir 3
+      derecha
+    mover
+    escaleraFlorDos (flores)
+  fin
+variables
+  robot1: flor
+comenzar
+  AsignarArea (robot1, area)
+  Iniciar (robot1, 1,1)
+fin 
