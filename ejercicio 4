@@ -1,0 +1,24 @@
+programa ejercicio4practica3
+procesos
+  proceso juntarFlor (ES flor: numero)
+  comenzar 
+    si HayFlorEnLaEsquina
+      tomarFlor
+      flor:= flor+1
+  fin
+  proceso juntarFlores 
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+
+
+  bloquear (10,10)
+  pos (10,10)
+  juntarFLor
+  bloquear esquina (11,11)
+  pos (11,11)
+  liberar esquina (10,10)
+  pos (inicial)
+  liberar esquina (11,11)
+  po
