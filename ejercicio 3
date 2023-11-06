@@ -5,7 +5,7 @@ procesos
     tomarFlor
     flores:= flores+1
   fin
-  proceso limpiar (ES flores: numero; E av: numero; E ca: numero)
+  proceso limpiar (ES flores: numero; E av: numero; E ca: numero; ES puedo:boolean; E id:numero)
   variables
     pos1, pos2: numero
   comenzar
@@ -17,7 +17,9 @@ procesos
       tomarFlor
       flores:= flores+1
     sino
+      EnviarMensaje (id,robot5)
       EnviarMensaje (flores, robot5)
+      puedo:= F
     Pos (pos1,pos2)
     LiberarEsquina (av,ca)
   fin
@@ -81,12 +83,15 @@ robots
   robot florero
   variables
     id, flores, av, ca: numero
+    puedo: boolean
   comenzar
     flores:=0
+    puedo:= V
     RecibirMensaje (id, robot5)
     RecibirMensaje (av, robot5)
     RecibirMensaje (ca, robot5)
-    limpiar (flores, av,ca)
+    mientras (puedo)
+      limpiar (flores, av,ca, puedo,id)
   fin
 variables
   robot1: florero
@@ -110,3 +115,4 @@ comenzar
   Iniciar (robot3, 4,1)
   Iniciar (robot4, 5,1)
 fin
+
