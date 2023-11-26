@@ -1,24 +1,123 @@
 programa ejercicio4practica3
 procesos
-  proceso juntarFlor (ES flor: numero)
+  proceso juntarFlor (ES flores: numero)
   comenzar 
-    si HayFlorEnLaEsquina
-      tomarFlor
-      flor:= flor+1
+    tomarFlor
+    flores:= flores+1
   fin
-  proceso juntarFlores 
+  proceso dejarFlor 
   comenzar
-    mientras HayFlorEnLaEsquina
-      tomarFlor
+    depositarFlor
   fin
-
-
-  bloquear (10,10)
-  pos (10,10)
-  juntarFLor
-  bloquear esquina (11,11)
-  pos (11,11)
-  liberar esquina (10,10)
-  pos (inicial)
-  liberar esquina (11,11)
-  po
+  proceso tomarYdepositar (ES flores: numero; ES seguir: boolean; E av: numero; E ca: numero)
+  comenzar
+    BloquearEsquina (10,10)
+    Pos (10,10)
+    si HayFlorEnLaEsquina
+      juntarFlor (flores)
+      BloquearEsquina (11,11) {solo va si junto flor}
+      Pos (11,11)
+      LiberarEsquina (10,10)
+      dejarFlor {como seguro tiene una flor no hace falta usar una variable}
+      Pos (av,ca)
+      LiberarEsquina (11,11)
+    sino
+      seguir:= F
+      Pos (av,ca)  
+      LiberarEsquina (10,10)
+  fin
+  proceso enviarIds
+  comenzar
+    EnviarMensaje (1, r1)
+    EnviarMensaje (2, r2)
+    EnviarMensaje (3, r3)
+    EnviarMensaje (4, r4)
+  fin
+  proceso quienEs (E id: numero; E flores: numero; ES totFlores: numero)
+  comenzar
+    si ( id = 1)
+      RecibirMensaje (flores, r1)
+      totFlores:= totFlores+flores
+    sino
+      si (id = 2)
+        RecibirMensaje (flores, r2)
+        totFlores:= totFlores+flores
+      sino
+        si (id = 3)
+          RecibirMensaje (flores, r3)
+          totFlores:= totFlores+flores
+        sino
+          si (id = 4)
+            RecibirMensaje (flores, r4)
+            totFlores:= totFlores+flores
+  fin
+  proceso recolectar (E totFlores: numero)
+  comenzar
+    Pos (11,11)
+    repetir totFlores
+      tomarFlor
+    Pos (1,1)
+  fin
+areas
+  compartida: AreaC (11,11,11,11)
+  parcial: AreaPC (10,10,10,10)
+  areaJ: AreaP (1,1,1,1)
+  area1: AreaP (9,9,9,9)
+  area2: AreaP (9,10,9,10)
+  area3: AreaP (9,11,9,11)
+  area4: AreaP (9,12,9,12)
+robots
+  robot florero
+  variables
+    id, flores, av, ca: numero
+    seguir: boolean
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    seguir:= V
+    flores:=0
+    RecibirMensaje (id, jefe)
+    mientras (seguir)
+      tomarYdepositar (flores, seguir, av, ca)
+    EnviarMensaje (id, jefe)
+    EnviarMensaje (flores, jefe)
+  fin
+  robot jefe
+  variables
+    flores, totFlores, id, cont: numero
+  comenzar
+    enviarIds
+    totFlores:=0
+    repetir 4
+      RecibirMensaje (id, *)
+      quienEs (id, flores, totFlores)
+    Informar (id) {esto esta bien?, informaria el ult que recibio porq ese seria el ult que termino}
+    recolectar (totFlores)
+  fin
+variables
+  jefe: jefe
+  r1: florero
+  r2: florero
+  r3: florero
+  r4: florero
+comenzar
+  AsignarArea (jefe, areaJ)
+  AsignarArea (jefe, compartida)
+  AsignarArea (r1, area1)
+  AsignarArea (r1, parcial)
+  AsignarArea (r1, compartida)
+  AsignarArea (r2, area2)
+  AsignarArea (r2, parcial)
+  AsignarArea (r2, compartida)
+  AsignarArea (r3, area3)
+  AsignarArea (r3, parcial)
+  AsignarArea (r3, compartida)
+  AsignarArea (r4, area4)
+  AsignarArea (r4, parcial)
+  AsignarArea (r4, compartida)
+  Iniciar (jefe, 1,1)
+  Iniciar (r1, 9,9)
+  Iniciar (r2, 9,10)
+  Iniciar (r3,9,11)
+  Iniciar (r4, 9,12)
+fin
