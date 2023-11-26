@@ -1,0 +1,78 @@
+programa ejercicio5
+procesos
+  proceso juntarPapel (ES seguir: boolean)
+  variables
+    av, ca: numero
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    BloquearEsquina (11,11)
+    Pos (11,11)
+    si HayPapelEnLaEsquina
+      tomarPapel
+      Pos (av,ca)
+      LiberarEsquina (11,11)
+      depositarPapel {lo pongo aca para que solo deposite si junto}
+    sino
+      seguir:= F
+      Pos (av,ca)
+      LiberarEsquina (11,11)
+  fin
+  proceso enviarIds
+  comenzar
+    EnviarMensaje (1, r1)
+    EnviarMensaje (2, r2)
+    EnviarMensaje (3,r3)
+    EnviarMensaje (4, r4)
+  fin
+areas
+  parcial: AreaPC (11,11,11,11)
+  area1: AreaP(4,1,4,100)
+  area2: AreaP(6,1,6,100)
+  area3: AreaP(8,1,8,100)
+  area4: AreaP(10,1,10,100)
+  areaJ: AreaP(100,100,100,100)
+robots
+  robot papelero
+  variables
+    seguir: boolean
+    id: numero
+  comenzar
+    seguir:= V
+    RecibirMensaje (id, jefazo)
+    mientras ((seguir) & (PosCa < 100))
+      juntarPapel (seguir)
+      mover
+    EnviarMensaje (id, jefazo)
+  fin
+  robot jefe
+  variables
+    id: numero
+  comenzar
+    enviarIds
+    repetir 4
+      RecibirMensaje (id, *)
+    Informar (id)
+  fin
+variables
+  jefazo: jefe
+  r1: papelero
+  r2: papelero
+  r3: papelero
+  r4: papelero
+comenzar
+  AsignarArea (jefazo, areaJ)
+  AsignarArea (r1, area1)
+  AsignarArea (r1, parcial)
+  AsignarArea (r2, area2)
+  AsignarArea (r2, parcial)
+  AsignarArea (r3, area3)
+  AsignarArea (r3, parcial)
+  AsignarArea (r4, area4)
+  AsignarArea (r4, parcial)
+  Iniciar (jefazo, 100,100)
+  Iniciar (r1, 4,1)
+  Iniciar (r2, 6,1)
+  Iniciar (r3, 8,1)
+  Iniciar (r4, 10,1)
+fin
